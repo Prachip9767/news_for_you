@@ -8,14 +8,30 @@ class NewsHome extends GetView<NewsHomeController>{
 
   @override
   Widget build(BuildContext context) {
-    return ListView.separated(
-      itemCount: controller.articles.length,
-        itemBuilder: (context, index) {
-          return Text(controller.articles[index].title);
-
-        }, separatorBuilder: (BuildContext context, int index) {
-        return const Divider(height: 2,);
-    },);
+    return SafeArea(
+      child: Scaffold(
+        body: SingleChildScrollView(
+          child: Column(
+            children: [
+              SizedBox(
+                // height: 500,
+                child: ListView.separated(
+                  physics: const NeverScrollableScrollPhysics(),
+                  shrinkWrap: true,
+                  itemCount: controller.articles.length,
+                    itemBuilder: (context, index) {
+                      return Text(controller.articles[index].title,
+                      style: const TextStyle(color: Colors.black),);
+              
+                    }, separatorBuilder: (BuildContext context, int index) {
+                    return const Divider(height: 2,);
+                },),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
   }
 
 }
