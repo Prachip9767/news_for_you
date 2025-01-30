@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:news_for_you/controller/news_home_controller.dart';
+import 'package:news_for_you/reusable_widgets/news_item_widget.dart';
 
 class NewsHome extends GetView<NewsHomeController>{
   const NewsHome({super.key});
@@ -8,25 +9,40 @@ class NewsHome extends GetView<NewsHomeController>{
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        body: SingleChildScrollView(
+    return Scaffold(
+      appBar: AppBar(centerTitle: true,
+      title: const Text('News For You'),),
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16.0),
           child: Column(
             children: [
-              SizedBox(
-                // height: 500,
-                child: ListView.separated(
-                  physics: const NeverScrollableScrollPhysics(),
-                  shrinkWrap: true,
-                  itemCount: controller.articles.length,
-                    itemBuilder: (context, index) {
-                      return Text(controller.articles[index].title,
-                      style: const TextStyle(color: Colors.black),);
-              
-                    }, separatorBuilder: (BuildContext context, int index) {
-                    return const Divider(height: 2,);
-                },),
+              Row(
+                children: [
+                  const Expanded(
+                    child: TextField(
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(borderRadius:
+                        BorderRadius.all( Radius.circular(20)))
+                      ),
+                    ),
+                  ),
+                  IconButton(onPressed: (){
+
+                  }, icon: const Icon(Icons.search))
+                ],
               ),
+              ListView.builder(
+                physics: const NeverScrollableScrollPhysics(),
+                shrinkWrap: true,
+                itemCount: controller.articles.length,
+                  itemBuilder: (context, index) {
+                    return NewsItemWidget(article: controller.articles[index],
+                        onTap: (){
+
+                        });
+
+                  },),
             ],
           ),
         ),
